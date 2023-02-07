@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect, useState} from "react";
+import Form from './components/Form'
+import Discussions from './components/Discussions'
 
 function App() {
+    //데이터 가져오기
+    const [backendData, setBackendData] = useState([])
+
+    //? 백엔드 데이터가 바뀔 예정이니까 dependency array에 [backendData]를 넣어줘야할까?
+  
+    useEffect(() => {
+      console.log('useEffect called')
+        fetch('http://localhost:4000/discussions')
+          .then(res => res.json())
+          .then(data => setBackendData(data))
+    }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <Form setBackendData={setBackendData}/>
+      <Discussions backendData={backendData} />
+    </React.Fragment>
   );
 }
 
